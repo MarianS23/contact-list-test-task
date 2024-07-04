@@ -1,0 +1,76 @@
+<div class="wrapper">
+  <div class="container">
+    <mat-card-header>
+      <mat-card-title>My Contacts List</mat-card-title>
+    </mat-card-header>
+    <div class="nav-bar">
+      <button mat-raised-button (click)="addData()" class="demo-button">
+        Add data
+      </button>
+    </div>
+    <div class="table-container">
+      <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Looking for ..."
+          #input
+        />
+      </mat-form-field>
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- № Column -->
+        <ng-container matColumnDef="sequenceNumber">
+          <th mat-header-cell *matHeaderCellDef>№</th>
+          <td mat-cell *matCellDef="let element">{{ dataSource.data.indexOf(element)+1}}</td>
+        </ng-container>
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef>First name</th>
+          <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef>Last name</th>
+          <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="phoneNumber">
+          <th mat-header-cell *matHeaderCellDef>Phone number</th>
+          <td mat-cell *matCellDef="let element">{{ element.phoneNumber }}</td>
+        </ng-container>
+
+        <!-- button column -->
+        <ng-container matColumnDef="actions" stickyEnd>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            sortActionDescription="Sort by actions"
+            style="width: 7%"
+          >Actions</th>
+          <td mat-cell *matCellDef="let element" class="action-td">
+            <div class="button-block">
+              <button mat-raised-button (click)="showFullContact(element)">info</button>
+              <button mat-raised-button (click)="editContact(element)">edit</button>
+              <button mat-raised-button (click)="deleteContact(element)">delete</button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">
+            No data matching the filter "{{ input.value }}"
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
