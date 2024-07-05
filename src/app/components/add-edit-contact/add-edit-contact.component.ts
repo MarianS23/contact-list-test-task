@@ -42,16 +42,10 @@ export class AddEditContactComponent implements OnInit {
     })
   }
 
-  createContact() {
+  createUpdateContact() {
     if(this.form.valid){
       this.dialogRef.close({data:this.form.value})
     }
-
   }
-  editContact() {
-    if(this.form.valid){
-      this.dialogRef.close({data:this.form.value})
-    }
-
-  }
+ 
 }

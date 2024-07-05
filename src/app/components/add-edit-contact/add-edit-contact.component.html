@@ -25,5 +25,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button mat-dialog-close>Close</button>
-  <button mat-button [mat-dialog-close]="true" (click)="data.isEdit? editContact(): createContact()" [disabled]="form.invalid">{{data.isEdit? 'Update':'Save'}}</button>
+  <button mat-button [mat-dialog-close]="true" (click)="createUpdateContact()" [disabled]="form.invalid">{{data.isEdit? 'Update':'Save'}}</button>
 </div>

@@ -26,7 +26,7 @@ export class UserCabinetComponent implements OnInit {
     this.getContacts()
   }
 
-  fillTheList(){
+  fillTheList() {
     this.localStorageService.setItem('contacts', JSON.stringify(LIST))
   }
 
@@ -35,7 +35,7 @@ export class UserCabinetComponent implements OnInit {
     if (contacts) {
       this.dataSource = new MatTableDataSource(JSON.parse(contacts))
     }
-  } 
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -50,7 +50,7 @@ export class UserCabinetComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
+      if (result) {
         let contacts = [...this.dataSource.data, result.data]
         console.log(contacts)
         this.localStorageService.setItem('contacts', JSON.stringify(contacts))
@@ -75,19 +75,21 @@ export class UserCabinetComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      let contacts = this.dataSource.data.map((item,index)=>index === this.getCurrentIndex(contact)?result.data:item)
-      this.localStorageService.setItem('contacts', JSON.stringify(contacts))
+      if (result) {
+        let contacts = this.dataSource.data.map((item, index) => index === this.getCurrentIndex(contact) ? result.data : item)
+        this.localStorageService.setItem('contacts', JSON.stringify(contacts))
+      }
       this.getContacts();
     });
   }
 
   deleteContact(contact: ContactData): void {
-    let contacts = this.dataSource.data.filter((item,index)=>index!== this.getCurrentIndex(contact) )
+    let contacts = this.dataSource.data.filter((item, index) => index !== this.getCurrentIndex(contact))
     this.localStorageService.setItem('contacts', JSON.stringify(contacts))
     this.getContacts();
   }
 
-  getCurrentIndex(contact:ContactData):number{
+  getCurrentIndex(contact: ContactData): number {
     return this.dataSource.data.indexOf(contact);
   }
 }
