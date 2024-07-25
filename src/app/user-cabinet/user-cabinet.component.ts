@@ -7,7 +7,6 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 import { ContactData } from '../shared/interfaces/interfaces';
 import { LIST } from '../shared/constants/constants';
 
-
 @Component({
   selector: 'app-user-cabinet',
   templateUrl: './user-cabinet.component.html',
@@ -22,18 +21,24 @@ export class UserCabinetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.fillTheList()
     this.getContacts()
   }
 
   fillTheList() {
-    this.localStorageService.setItem('contacts', JSON.stringify(LIST))
+    if(this.dataSource.data){
+      let contacts = [...this.dataSource.data, ...LIST]
+      console.log(this.dataSource.data)
+      this.localStorageService.setItem('contacts', JSON.stringify(contacts))
+      this.getContacts()
+    }
   }
 
   getContacts() {
     let contacts = this.localStorageService.getItem('contacts');
     if (contacts) {
       this.dataSource = new MatTableDataSource(JSON.parse(contacts))
+    }else {
+      this.dataSource = new MatTableDataSource()
     }
   }
 
@@ -52,7 +57,6 @@ export class UserCabinetComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         let contacts = [...this.dataSource.data, result.data]
-        console.log(contacts)
         this.localStorageService.setItem('contacts', JSON.stringify(contacts))
       }
       this.getContacts()
